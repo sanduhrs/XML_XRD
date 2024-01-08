@@ -2,8 +2,6 @@
 /**
  * Part of XML_XRD
  *
- * PHP version 5
- *
  * @category XML
  * @package  XML_XRD
  * @author   Christian Weiske <cweiske@php.net>
