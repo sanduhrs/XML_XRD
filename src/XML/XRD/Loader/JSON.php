@@ -103,7 +103,7 @@ class XML_XRD_Loader_JSON
     /**
      * Loads the JSON object into the classes' data structures
      *
-     * @param object $j JSON object containing the whole JSON document
+     * @param stdClass $j JSON object containing the whole JSON document
      *
      * @return void
      */
