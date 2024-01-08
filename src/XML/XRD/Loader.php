@@ -1,6 +1,8 @@
 <?php
 /**
  * Part of XML_XRD
+ * 
+ * PHP Version 8.0
  *
  * @category XML
  * @package  XML_XRD
@@ -26,6 +28,11 @@ require_once 'XML/XRD/Loader/Exception.php';
 class XML_XRD_Loader
 {
 
+    /**
+     * A XRD document
+     *
+     * @var XML_XRD
+     */
     protected XML_XRD $xrd;
 
     /**
@@ -44,7 +51,7 @@ class XML_XRD_Loader
      * Note: Only use file type auto-detection for local files.
      * Do not use it on remote files as the file gets requested several times.
      *
-     * @param string $file Path to an XRD file
+     * @param string      $file Path to an XRD file
      * @param string|null $type File type: xml or json, NULL for auto-detection
      *
      * @return void
@@ -64,7 +71,7 @@ class XML_XRD_Loader
     /**
      * Loads the contents of the given string
      *
-     * @param string $str  XRD string
+     * @param string      $str  XRD string
      * @param string|null $type File type: xml or json, NULL for auto-detection
      *
      * @return void
@@ -88,8 +95,9 @@ class XML_XRD_Loader
      *
      * @return XML_XRD_Loader_JSON|XML_XRD_Loader_XML
      */
-    protected function getLoader(string $type): XML_XRD_Loader_JSON|XML_XRD_Loader_XML
-    {
+    protected function getLoader(
+        string $type
+    ): XML_XRD_Loader_JSON|XML_XRD_Loader_XML {
         $class = 'XML_XRD_Loader_' . strtoupper($type);
         $file = str_replace('_', '/', $class) . '.php';
         include_once $file;
@@ -158,5 +166,4 @@ class XML_XRD_Loader
 
 
 }
-
 ?>

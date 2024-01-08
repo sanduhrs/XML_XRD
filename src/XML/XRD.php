@@ -1,6 +1,8 @@
 <?php
 /**
  * Part of XML_XRD
+ * 
+ * PHP Version 8.0
  *
  * @category XML
  * @package  XML_XRD
@@ -79,7 +81,7 @@ class XML_XRD extends XML_XRD_PropertyAccess implements IteratorAggregate
     public int|null $expires = null;
 
     /**
-     * xml:id of the XRD document
+     * Xml:id of the XRD document
      *
      * @var string|null
      */
@@ -93,7 +95,7 @@ class XML_XRD extends XML_XRD_PropertyAccess implements IteratorAggregate
      * Note: Only use file type auto-detection for local files.
      * Do not use it on remote files as the file gets requested several times.
      *
-     * @param string $file Path to an XRD file
+     * @param string      $file Path to an XRD file
      * @param string|null $type File type: xml or json, NULL for auto-detection
      *
      * @return void
@@ -112,7 +114,7 @@ class XML_XRD extends XML_XRD_PropertyAccess implements IteratorAggregate
     /**
      * Loads the contents of the given string
      *
-     * @param string $str  XRD string
+     * @param string      $str  XRD string
      * @param string|null $type File type: xml or json, NULL for auto-detection
      *
      * @return void
@@ -157,16 +159,17 @@ class XML_XRD extends XML_XRD_PropertyAccess implements IteratorAggregate
     /**
      * Get the link with highest priority for the given relation and type.
      *
-     * @param string  $rel          Relation name
-     * @param string|null  $type         MIME Type
-     * @param boolean $typeFallback When true and no link with the given type
-     *                              could be found, the best link without a
-     *                              type will be returned
+     * @param string      $rel          Relation name
+     * @param string|null $type         MIME Type
+     * @param boolean     $typeFallback When true and no link with the given
+     *                                  type could be found, the best link 
+     *                                  without a type will be returned
      *
      * @return XML_XRD_Element_Link|null Link object or NULL if none found
      */
-    public function get(string $rel, string|null $type = null, bool $typeFallback = true): XML_XRD_Element_Link|null
-    {
+    public function get(
+        string $rel, string|null $type = null, bool $typeFallback = true
+    ): XML_XRD_Element_Link|null {
         $links = $this->getAll($rel, $type, $typeFallback);
         if (count($links) == 0) {
             return null;
@@ -179,16 +182,17 @@ class XML_XRD extends XML_XRD_PropertyAccess implements IteratorAggregate
     /**
      * Get all links with the given relation and type, highest priority first.
      *
-     * @param string  $rel          Relation name
-     * @param string|null  $type         MIME Type
-     * @param boolean $typeFallback When true and no link with the given type
-     *                              could be found, the best link without a
-     *                              type will be returned
+     * @param string      $rel          Relation name
+     * @param string|null $type         MIME Type
+     * @param boolean     $typeFallback When true and no link with the given
+     *                                  type could be found, the best link
+     *                                  without a type will be returned
      *
      * @return array Array of XML_XRD_Element_Link objects
      */
-    public function getAll(string $rel, string|null $type = null, bool $typeFallback = true): array
-    {
+    public function getAll(
+        string $rel, string|null $type = null, bool $typeFallback = true
+    ): array {
         $links = [];
         $exactType = false;
         foreach ($this->links as $link) {

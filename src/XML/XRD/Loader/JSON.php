@@ -1,6 +1,8 @@
 <?php
 /**
  * Part of XML_XRD
+ * 
+ * PHP Version 8.0
  *
  * @category XML
  * @package  XML_XRD
@@ -21,14 +23,13 @@
  */
 class XML_XRD_Loader_JSON
 {
+
     /**
      * Data storage the XML data get loaded into
      *
      * @var XML_XRD
      */
     protected XML_XRD $xrd;
-
-
 
     /**
      * Init object with xrd object
@@ -134,7 +135,7 @@ class XML_XRD_Loader_JSON
     /**
      * Loads the Property elements from XML
      *
-     * @param XML_XRD_PropertyAccess $store Data store where the properties get stored
+     * @param XML_XRD_PropertyAccess $store Properties data store
      * @param stdClass               $j     JSON element with "properties" variable
      *
      * @return boolean True when all went well

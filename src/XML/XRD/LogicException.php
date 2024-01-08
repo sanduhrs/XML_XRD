@@ -1,6 +1,8 @@
 <?php
 /**
  * Part of XML_XRD
+ * 
+ * PHP Version 8.0
  *
  * @category XML
  * @package  XML_XRD
@@ -24,5 +26,4 @@ require_once 'XML/XRD/Exception.php';
 class XML_XRD_LogicException extends LogicException implements XML_XRD_Exception
 {
 }
-
 ?>

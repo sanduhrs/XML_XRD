@@ -1,6 +1,8 @@
 <?php
 /**
  * Part of XML_XRD
+ * 
+ * PHP Version 8.0
  *
  * @category XML
  * @package  XML_XRD
@@ -26,6 +28,7 @@ require_once 'XML/XRD/PropertyAccess.php';
  */
 class XML_XRD_Element_Link extends XML_XRD_PropertyAccess
 {
+
     /**
      * Link relation
      *
@@ -66,14 +69,17 @@ class XML_XRD_Element_Link extends XML_XRD_PropertyAccess
     /**
      * Create a new instance and load data from the XML element
      *
-     * @param string|null  $rel        string with the relation name/URL
-     * @param string|null  $href       HREF value
-     * @param string|null  $type       Type value
-     * @param boolean $isTemplate When set to true, the $href is
-     *                            used as template
+     * @param string|null $rel        string with the relation name/URL
+     * @param string|null $href       HREF value
+     * @param string|null $type       Type value
+     * @param boolean     $isTemplate When set to true, the $href is
+     *                                used as template
      */
     public function __construct(
-        string|null $rel = null, string|null $href = null, string|null $type = null, bool $isTemplate = false
+        string|null $rel = null,
+        string|null $href = null,
+        string|null $type = null,
+        bool $isTemplate = false
     ) {
         $this->rel = $rel;
         if ($isTemplate) {

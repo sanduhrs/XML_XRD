@@ -1,6 +1,8 @@
 <?php
 /**
  * Part of XML_XRD
+ * 
+ * PHP Version 8.0
  *
  * @category XML
  * @package  XML_XRD
@@ -21,6 +23,7 @@
  */
 class XML_XRD_Loader_XML
 {
+
     /**
      * Data storage the XML data get loaded into
      *
@@ -32,8 +35,6 @@ class XML_XRD_Loader_XML
      * XRD 1.0 namespace
      */
     const NS_XRD = 'http://docs.oasis-open.org/ns/xri/xrd-1.0';
-
-
 
     /**
      * Init object with xrd object
@@ -148,7 +149,7 @@ class XML_XRD_Loader_XML
     /**
      * Loads the Property elements from XML
      *
-     * @param XML_XRD_PropertyAccess $store Data store where the properties get stored
+     * @param XML_XRD_PropertyAccess $store Properties data store
      * @param SimpleXMLElement       $x     XML element
      *
      * @return boolean True when all went well

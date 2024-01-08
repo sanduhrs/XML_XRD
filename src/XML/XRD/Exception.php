@@ -2,6 +2,8 @@
 /**
  * Part of XML_XRD
  *
+ * PHP Version 8.0
+ *
  * @category XML
  * @package  XML_XRD
  * @author   Christian Weiske <cweiske@php.net>
@@ -24,5 +26,4 @@
 interface XML_XRD_Exception
 {
 }
-
 ?>

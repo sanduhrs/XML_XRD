@@ -1,6 +1,8 @@
 <?php
 /**
  * Part of XML_XRD
+ * 
+ * PHP Version 8.0
  *
  * @category XML
  * @package  XML_XRD
@@ -59,8 +61,9 @@ class XML_XRD_Serializer
      *
      * @return XML_XRD_Serializer_XML|XML_XRD_Serializer_JSON
      */
-    protected function getSerializer(string $type): XML_XRD_Serializer_XML|XML_XRD_Serializer_JSON
-    {
+    protected function getSerializer(
+        string $type
+    ): XML_XRD_Serializer_XML|XML_XRD_Serializer_JSON {
         $class = 'XML_XRD_Serializer_' . strtoupper($type);
         $file = str_replace('_', '/', $class) . '.php';
         include_once $file;

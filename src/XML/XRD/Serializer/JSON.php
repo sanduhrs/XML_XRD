@@ -1,6 +1,8 @@
 <?php
 /**
  * Part of XML_XRD
+ * 
+ * PHP Version 8.0
  *
  * @category XML
  * @package  XML_XRD
@@ -22,6 +24,12 @@
  */
 class XML_XRD_Serializer_JSON
 {
+
+    /**
+     * A XRD document
+     *
+     * @var XML_XRD
+     */
     protected XML_XRD $xrd;
 
     /**
@@ -88,5 +96,4 @@ class XML_XRD_Serializer_JSON
         return json_encode($o);
     }
 }
-
 ?>

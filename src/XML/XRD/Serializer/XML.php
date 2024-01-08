@@ -1,6 +1,8 @@
 <?php
 /**
  * Part of XML_XRD
+ * 
+ * PHP Version 8.0
  *
  * @category XML
  * @package  XML_XRD
@@ -21,6 +23,12 @@
  */
 class XML_XRD_Serializer_XML
 {
+
+    /**
+     * A XRD document
+     *
+     * @var XML_XRD
+     */
     protected XML_XRD $xrd;
 
     /**
@@ -113,7 +121,7 @@ class XML_XRD_Serializer_XML
      *
      * @param XMLWriter                $x        Writer object to write to
      * @param XML_XRD_Element_Property $property Property to write
-     * @param boolean                  &$hasXsi  If an xsi: attribute is used
+     * @param boolean                  $hasXsi   If an xsi: attribute is used
      *
      * @return void
      */
@@ -131,5 +139,4 @@ class XML_XRD_Serializer_XML
         $x->endElement();
     }
 }
-
 ?>
