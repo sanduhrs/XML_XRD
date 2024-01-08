@@ -25,6 +25,9 @@ require_once 'XML/XRD/Loader/Exception.php';
  */
 class XML_XRD_Loader
 {
+
+    protected XML_XRD $xrd;
+
     /**
      * Create new instance
      *

@@ -9,7 +9,11 @@ use \PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
  */
 class XML_XRD_LoaderTest extends PHPUnit_Framework_TestCase
 {
-    protected $cleanupList = [];
+    protected array $cleanupList = [];
+
+    protected XML_XRD $xrd;
+
+    protected XML_XRD_Loader $loader;
 
     public function setUp(): void
     {

@@ -9,6 +9,11 @@ use \PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
  */
 class XML_XRD_Loader_JSONTest extends PHPUnit_Framework_TestCase
 {
+
+    protected XML_XRD $xrd;
+
+    protected XML_XRD_Loader_JSON $jl;
+
     public function setUp(): void
     {
         $this->xrd = new XML_XRD();

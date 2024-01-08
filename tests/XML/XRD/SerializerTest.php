@@ -9,7 +9,11 @@ use \PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
  */
 class XML_XRD_SerializerTest extends PHPUnit_Framework_TestCase
 {
-    protected $cleanupList = [];
+    protected array $cleanupList = [];
+
+    protected XML_XRD $xrd;
+
+    protected XML_XRD_Serializer $serializer;
 
     public function setUp(): void
     {
