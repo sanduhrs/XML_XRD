@@ -24,7 +24,7 @@
  */
 class XML_XRD_Serializer_JSON
 {
-    protected $xrd;
+    protected XML_XRD $xrd;
 
     /**
      * Create new instance
@@ -41,7 +41,7 @@ class XML_XRD_Serializer_JSON
      *
      * @return string JSON code
      */
-    public function __toString()
+    public function __toString(): string
     {
         $o = new stdClass();
         if ($this->xrd->expires !== null) {
@@ -56,7 +56,7 @@ class XML_XRD_Serializer_JSON
         foreach ($this->xrd->properties as $property) {
             $o->properties[$property->type] = $property->value;
         }
-        $o->links = array();
+        $o->links = [];
         foreach ($this->xrd->links as $link) {
             $lid = count($o->links);
             $o->links[$lid] = new stdClass();

@@ -42,35 +42,35 @@ class XML_XRD extends XML_XRD_PropertyAccess implements IteratorAggregate
      *
      * @var XML_XRD_Loader
      */
-    public $loader;
+    public XML_XRD_Loader $loader;
 
     /**
      * XRD serializing dispatcher
      *
      * @var XML_XRD_Serializer
      */
-    public $serializer;
+    public XML_XRD_Serializer $serializer;
 
     /**
      * XRD subject
      *
-     * @var string
+     * @var string|null
      */
-    public $subject;
+    public string|null $subject = null;
 
     /**
      * Array of subject alias strings
      *
      * @var array
      */
-    public $aliases = array();
+    public array $aliases = [];
 
     /**
      * Array of link objects
      *
      * @var array
      */
-    public $links = array();
+    public array $links = [];
 
     /**
      * Unix timestamp when the document expires.
@@ -78,14 +78,14 @@ class XML_XRD extends XML_XRD_PropertyAccess implements IteratorAggregate
      *
      * @var integer|null
      */
-    public $expires;
+    public int|null $expires = null;
 
     /**
      * xml:id of the XRD document
      *
      * @var string|null
      */
-    public $id;
+    public string|null $id = null;
 
 
 
@@ -96,38 +96,38 @@ class XML_XRD extends XML_XRD_PropertyAccess implements IteratorAggregate
      * Do not use it on remote files as the file gets requested several times.
      *
      * @param string $file Path to an XRD file
-     * @param string $type File type: xml or json, NULL for auto-detection
+     * @param string|null $type File type: xml or json, NULL for auto-detection
      *
      * @return void
      *
      * @throws XML_XRD_Loader_Exception When the file is invalid or cannot be
      *                                   loaded
      */
-    public function loadFile($file, $type = null)
+    public function loadFile(string $file, string|null $type = null): void
     {
         if (!isset($this->loader)) {
             $this->loader = new XML_XRD_Loader($this);
         }
-        return $this->loader->loadFile($file, $type);
+        $this->loader->loadFile($file, $type);
     }
 
     /**
      * Loads the contents of the given string
      *
      * @param string $str  XRD string
-     * @param string $type File type: xml or json, NULL for auto-detection
+     * @param string|null $type File type: xml or json, NULL for auto-detection
      *
      * @return void
      *
      * @throws XML_XRD_Loader_Exception When the string is invalid or cannot be
      *                                   loaded
      */
-    public function loadString($str, $type = null)
+    public function loadString(string $str, string|null $type = null): void
     {
         if (!isset($this->loader)) {
             $this->loader = new XML_XRD_Loader($this);
         }
-        return $this->loader->loadString($str, $type);
+        $this->loader->loadString($str, $type);
     }
 
     /**
@@ -142,7 +142,7 @@ class XML_XRD extends XML_XRD_PropertyAccess implements IteratorAggregate
      *
      * @return boolean True or false
      */
-    public function describes($uri)
+    public function describes(string $uri): bool
     {
         if ($this->subject == $uri) {
             return true;
@@ -160,14 +160,14 @@ class XML_XRD extends XML_XRD_PropertyAccess implements IteratorAggregate
      * Get the link with highest priority for the given relation and type.
      *
      * @param string  $rel          Relation name
-     * @param string  $type         MIME Type
+     * @param string|null  $type         MIME Type
      * @param boolean $typeFallback When true and no link with the given type
      *                              could be found, the best link without a
      *                              type will be returned
      *
-     * @return XML_XRD_Element_Link Link object or NULL if none found
+     * @return XML_XRD_Element_Link|null Link object or NULL if none found
      */
-    public function get($rel, $type = null, $typeFallback = true)
+    public function get(string $rel, string|null $type = null, bool $typeFallback = true): XML_XRD_Element_Link|null
     {
         $links = $this->getAll($rel, $type, $typeFallback);
         if (count($links) == 0) {
@@ -182,16 +182,16 @@ class XML_XRD extends XML_XRD_PropertyAccess implements IteratorAggregate
      * Get all links with the given relation and type, highest priority first.
      *
      * @param string  $rel          Relation name
-     * @param string  $type         MIME Type
+     * @param string|null  $type         MIME Type
      * @param boolean $typeFallback When true and no link with the given type
      *                              could be found, the best link without a
      *                              type will be returned
      *
      * @return array Array of XML_XRD_Element_Link objects
      */
-    public function getAll($rel, $type = null, $typeFallback = true)
+    public function getAll(string $rel, string|null $type = null, bool $typeFallback = true): array
     {
-        $links = array();
+        $links = [];
         $exactType = false;
         foreach ($this->links as $link) {
             if ($link->rel == $rel
@@ -205,7 +205,7 @@ class XML_XRD extends XML_XRD_PropertyAccess implements IteratorAggregate
         }
         if ($exactType) {
             //remove all links without type
-            $exactlinks = array();
+            $exactlinks = [];
             foreach ($links as $link) {
                 if ($link->type !== null) {
                     $exactlinks[] = $link;
@@ -223,7 +223,7 @@ class XML_XRD extends XML_XRD_PropertyAccess implements IteratorAggregate
      *
      * @return Traversable Iterator for the links
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->links);
     }
@@ -235,7 +235,7 @@ class XML_XRD extends XML_XRD_PropertyAccess implements IteratorAggregate
      *
      * @return string Generated content
      */
-    public function to($type)
+    public function to(string $type): string
     {
         if (!isset($this->serializer)) {
             $this->serializer = new XML_XRD_Serializer($this);
@@ -250,7 +250,7 @@ class XML_XRD extends XML_XRD_PropertyAccess implements IteratorAggregate
      *
      * @deprecated use to('xml')
      */
-    public function toXML()
+    public function toXML(): string
     {
         return $this->to('xml');
     }

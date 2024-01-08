@@ -7,12 +7,12 @@ require_once 'PHPUnit/Autoload.php';
 
 class XML_XRD_AllTests
 {
-    public static function main()
+    public static function main(): void
     {
         PHPUnit_TextUI_TestRunner::run(self::suite());
     }
 
-    public static function suite()
+    public static function suite(): PHPUnit_Framework_TestSuite
     {
         $suite = new PHPUnit_Framework_TestSuite('XML_XRD tests');
         /** Add testsuites, if there is. */

@@ -23,7 +23,7 @@
  */
 class XML_XRD_Serializer_XML
 {
-    protected $xrd;
+    protected XML_XRD $xrd;
 
     /**
      * Create new instance
@@ -40,7 +40,7 @@ class XML_XRD_Serializer_XML
      *
      * @return string Full XML code
      */
-    public function __toString()
+    public function __toString(): string
     {
         $hasXsi = false;
         $x = new XMLWriter();
@@ -120,8 +120,8 @@ class XML_XRD_Serializer_XML
      * @return void
      */
     protected function writeProperty(
-        XMLWriter $x, XML_XRD_Element_Property $property, &$hasXsi
-    ) {
+        XMLWriter $x, XML_XRD_Element_Property $property, bool &$hasXsi
+    ): void {
         $x->startElement('Property');
         $x->writeAttribute('type', $property->type);
         if ($property->value === null) {

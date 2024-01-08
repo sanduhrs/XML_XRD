@@ -30,22 +30,22 @@ class XML_XRD_Element_Property
      *
      * @var string|null
      */
-    public $value;
+    public string|null $value;
 
     /**
      * Type of the propery.
      *
-     * @var string
+     * @var string|null
      */
-    public $type;
+    public string|null $type;
 
     /**
      * Create a new instance
      *
-     * @param string $type  String representing the property type
-     * @param string $value Value of the property, may be NULL
+     * @param string|null $type  String representing the property type
+     * @param string|null $value Value of the property, may be NULL
      */
-    public function __construct($type = null, $value = null)
+    public function __construct(string|null $type = null, string|null $value = null)
     {
         $this->type  = $type;
         $this->value = $value;

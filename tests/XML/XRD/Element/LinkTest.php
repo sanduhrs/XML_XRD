@@ -1,15 +1,17 @@
 <?php
 require_once 'XML/XRD.php';
 
+use \PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
+
 /**
  * @covers XML_XRD_Element_Link
  */
 class XML_XRD_Element_LinkTest extends PHPUnit_Framework_TestCase
 {
-    public $xrd;
-    public $link;
+    public XML_XRD $xrd;
+    public XML_XRD_Element_Link $link;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->xrd = new XML_XRD();
         $this->xrd->loadFile(__DIR__ . '/../../../xrd/xrd-1.0-b1.xrd');
@@ -17,7 +19,7 @@ class XML_XRD_Element_LinkTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('XML_XRD_Element_Link', $this->link);
     }
 
-    public function test__constructParamHref()
+    public function test__constructParamHref(): void
     {
         $link = new XML_XRD_Element_Link(
             'http://spec.example.net/photo/1.0',
@@ -30,7 +32,7 @@ class XML_XRD_Element_LinkTest extends PHPUnit_Framework_TestCase
         $this->assertNull($link->template);
     }
 
-    public function test__constructParamHrefTemplate()
+    public function test__constructParamHrefTemplate(): void
     {
         $link = new XML_XRD_Element_Link(
             'lrdd',
@@ -46,34 +48,34 @@ class XML_XRD_Element_LinkTest extends PHPUnit_Framework_TestCase
 
 
 
-    public function testPropertyRel()
+    public function testPropertyRel(): void
     {
         $this->assertEquals('http://spec.example.net/photo/1.0', $this->link->rel);
     }
 
-    public function testPropertyType()
+    public function testPropertyType(): void
     {
         $this->assertEquals('image/jpeg', $this->link->type);
     }
 
-    public function testPropertyHref()
+    public function testPropertyHref(): void
     {
         $this->assertEquals('http://photos.example.com/gpburdell.jpg', $this->link->href);
     }
 
-    public function testPropertyTemplate()
+    public function testPropertyTemplate(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../../../xrd/link-template.xrd');
         $this->link = $this->xrd->get('title');
         $this->assertEquals('http://photos.example.com/{uri}.jpg', $this->link->template);
     }
 
-    public function testPropertyTemplateNone()
+    public function testPropertyTemplateNone(): void
     {
         $this->assertNull($this->link->template);
     }
 
-    public function testPropertyTitles()
+    public function testPropertyTitles(): void
     {
         $this->assertEquals(
             array('en' => 'User Photo', 'de' => 'Benutzerfoto'),
@@ -81,22 +83,22 @@ class XML_XRD_Element_LinkTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetTitleNoParam()
+    public function testGetTitleNoParam(): void
     {
         $this->assertEquals('User Photo', $this->link->getTitle(), 'First title returned');
     }
 
-    public function testGetTitle()
+    public function testGetTitle(): void
     {
         $this->assertEquals('Benutzerfoto', $this->link->getTitle('de'));
     }
 
-    public function testGetTitleNoTitles()
+    public function testGetTitleNoTitles(): void
     {
         $this->assertNull($this->xrd->get('http://spec.example.net/auth/1.0')->getTitle());
     }
 
-    public function testGetTitleLangNotFound()
+    public function testGetTitleLangNotFound(): void
     {
         $this->assertEquals(
             'User Photo', $this->link->getTitle('fr'),
@@ -104,7 +106,7 @@ class XML_XRD_Element_LinkTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetTitleLangNotFoundFallbackNoLang()
+    public function testGetTitleLangNotFoundFallbackNoLang(): void
     {
         $xrd = new XML_XRD();
         $xrd->loadFile(__DIR__ . '/../../../xrd/link-title.xrd');
@@ -116,7 +118,7 @@ class XML_XRD_Element_LinkTest extends PHPUnit_Framework_TestCase
     }
 
 
-    public function testArrayAccess()
+    public function testArrayAccess(): void
     {
         $xrd = new XML_XRD();
         $xrd->loadFile(__DIR__ . '/../../../xrd/properties.xrd');

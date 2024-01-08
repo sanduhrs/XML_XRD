@@ -28,7 +28,7 @@ class XML_XRD_Loader_XML
      *
      * @var XML_XRD
      */
-    protected $xrd;
+    protected XML_XRD $xrd;
 
     /**
      * XRD 1.0 namespace
@@ -57,7 +57,7 @@ class XML_XRD_Loader_XML
      * @throws XML_XRD_Loader_Exception When the XML is invalid or cannot be
      *                                   loaded
      */
-    public function loadFile($file)
+    public function loadFile(string $file): void
     {
         $old = libxml_use_internal_errors(true);
         $x = simplexml_load_file($file);
@@ -68,7 +68,7 @@ class XML_XRD_Loader_XML
                 XML_XRD_Loader_Exception::LOAD
             );
         }
-        return $this->load($x);
+        $this->load($x);
     }
 
     /**
@@ -81,7 +81,7 @@ class XML_XRD_Loader_XML
      * @throws XML_XRD_Loader_Exception When the XML is invalid or cannot be
      *                                   loaded
      */
-    public function loadString($xml)
+    public function loadString(string $xml): void
     {
         if ($xml == '') {
             throw new XML_XRD_Loader_Exception(
@@ -98,19 +98,19 @@ class XML_XRD_Loader_XML
                 XML_XRD_Loader_Exception::LOAD
             );
         }
-        return $this->load($x);
+        $this->load($x);
     }
 
     /**
      * Loads the XML element into the classes' data structures
      *
-     * @param object $x XML element containing the whole XRD document
+     * @param SimpleXMLElement $x XML element containing the whole XRD document
      *
      * @return void
      *
      * @throws XML_XRD_Loader_Exception When the XML is invalid
      */
-    public function load(SimpleXMLElement $x)
+    public function load(SimpleXMLElement $x): void
     {
         $ns = $x->getDocNamespaces();
         if ($ns[''] !== self::NS_XRD) {
@@ -150,30 +150,31 @@ class XML_XRD_Loader_XML
     /**
      * Loads the Property elements from XML
      *
-     * @param object $store Data store where the properties get stored
-     * @param object $x     XML element
+     * @param XML_XRD_PropertyAccess $store Data store where the properties get stored
+     * @param SimpleXMLElement       $x     XML element
      *
      * @return boolean True when all went well
      */
     protected function loadProperties(
         XML_XRD_PropertyAccess $store, SimpleXMLElement $x
-    ) {
+    ): bool {
         foreach ($x->Property as $xProp) {
             $store->properties[] = $this->loadProperty($xProp);
         }
+        return true;
     }
 
     /**
      * Create a link element object from XML element
      *
-     * @param object $x XML link element
+     * @param SimpleXMLElement $x XML link element
      *
      * @return XML_XRD_Element_Link Created link object
      */
-    protected function loadLink(SimpleXMLElement $x)
+    protected function loadLink(SimpleXMLElement $x): XML_XRD_Element_Link
     {
         $link = new XML_XRD_Element_Link();
-        foreach (array('rel', 'type', 'href', 'template') as $var) {
+        foreach (['rel', 'type', 'href', 'template'] as $var) {
             if (isset($x[$var])) {
                 $link->$var = (string)$x[$var];
             }
@@ -197,11 +198,11 @@ class XML_XRD_Loader_XML
     /**
      * Create a property element object from XML element
      *
-     * @param object $x XML property element
+     * @param SimpleXMLElement $x XML property element
      *
      * @return XML_XRD_Element_Property Created link object
      */
-    protected function loadProperty(SimpleXMLElement $x)
+    protected function loadProperty(SimpleXMLElement $x): XML_XRD_Element_Property
     {
         $prop = new XML_XRD_Element_Property();
         if (isset($x['type'])) {

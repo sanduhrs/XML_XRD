@@ -30,7 +30,7 @@ class XML_XRD_Serializer
      *
      * @var XML_XRD
      */
-    protected $xrd;
+    protected XML_XRD $xrd;
 
     /**
      * Init object with xrd object
@@ -49,7 +49,7 @@ class XML_XRD_Serializer
      *
      * @return string Serialized data
      */
-    public function to($type)
+    public function to(string $type): string
     {
         return (string)$this->getSerializer($type);
     }
@@ -59,9 +59,9 @@ class XML_XRD_Serializer
      *
      * @param string $type File type: xml or json
      *
-     * @return XML_XRD_Loader
+     * @return XML_XRD_Serializer_XML|XML_XRD_Serializer_JSON
      */
-    protected function getSerializer($type)
+    protected function getSerializer(string $type): XML_XRD_Serializer_XML|XML_XRD_Serializer_JSON
     {
         $class = 'XML_XRD_Serializer_' . strtoupper($type);
         $file = str_replace('_', '/', $class) . '.php';

@@ -44,14 +44,14 @@ class XML_XRD_Loader
      * Do not use it on remote files as the file gets requested several times.
      *
      * @param string $file Path to an XRD file
-     * @param string $type File type: xml or json, NULL for auto-detection
+     * @param string|null $type File type: xml or json, NULL for auto-detection
      *
      * @return void
      *
      * @throws XML_XRD_Loader_Exception When the file is invalid or cannot be
      *                                   loaded
      */
-    public function loadFile($file, $type = null)
+    public function loadFile(string $file, string|null $type = null): void
     {
         if ($type === null) {
             $type = $this->detectTypeFromFile($file);
@@ -64,14 +64,14 @@ class XML_XRD_Loader
      * Loads the contents of the given string
      *
      * @param string $str  XRD string
-     * @param string $type File type: xml or json, NULL for auto-detection
+     * @param string|null $type File type: xml or json, NULL for auto-detection
      *
      * @return void
      *
      * @throws XML_XRD_Loader_Exception When the string is invalid or cannot be
      *                                   loaded
      */
-    public function loadString($str, $type = null)
+    public function loadString(string $str, string|null $type = null): void
     {
         if ($type === null) {
             $type = $this->detectTypeFromString($str);
@@ -85,9 +85,9 @@ class XML_XRD_Loader
      *
      * @param string $type File type: xml or json
      *
-     * @return XML_XRD_Loader
+     * @return XML_XRD_Loader_JSON|XML_XRD_Loader_XML
      */
-    protected function getLoader($type)
+    protected function getLoader(string $type): XML_XRD_Loader_JSON|XML_XRD_Loader_XML
     {
         $class = 'XML_XRD_Loader_' . strtoupper($type);
         $file = str_replace('_', '/', $class) . '.php';
@@ -111,7 +111,7 @@ class XML_XRD_Loader
      *
      * @throws XML_XRD_Loader_Exception When opening the file fails.
      */
-    public function detectTypeFromFile($file)
+    public function detectTypeFromFile(string $file): string
     {
         if (!file_exists($file)) {
             throw new XML_XRD_Loader_Exception(
@@ -141,7 +141,7 @@ class XML_XRD_Loader
      *
      * @throws XML_XRD_Loader_Exception When the type cannot be detected
      */
-    public function detectTypeFromString($str)
+    public function detectTypeFromString(string $str): string
     {
         if (substr($str, 0, 1) == '{') {
             return 'json';

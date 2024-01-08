@@ -35,7 +35,7 @@ abstract class XML_XRD_PropertyAccess implements ArrayAccess
      *
      * @var array
      */
-    public $properties = array();
+    public array $properties = [];
 
 
     /**
@@ -43,11 +43,11 @@ abstract class XML_XRD_PropertyAccess implements ArrayAccess
      *
      * Part of the ArrayAccess interface
      *
-     * @param string $type Property type to check for
+     * @param mixed $type Property type to check for
      *
      * @return boolean True if it exists
      */
-    public function offsetExists($type)
+    public function offsetExists(mixed $type): bool
     {
         foreach ($this->properties as $prop) {
             if ($prop->type == $type) {
@@ -62,11 +62,11 @@ abstract class XML_XRD_PropertyAccess implements ArrayAccess
      *
      * Part of the ArrayAccess interface
      *
-     * @param string $type Property type to check for
+     * @param mixed $type Property type to check for
      *
-     * @return string Property value or NULL if empty
+     * @return mixed Property value or NULL if empty
      */
-    public function offsetGet($type)
+    public function offsetGet(mixed $type): mixed
     {
         foreach ($this->properties as $prop) {
             if ($prop->type == $type) {
@@ -81,14 +81,14 @@ abstract class XML_XRD_PropertyAccess implements ArrayAccess
      *
      * Part of the ArrayAccess interface
      *
-     * @param string $type  Property type to check for
-     * @param string $value New property value
+     * @param mixed $type  Property type to check for
+     * @param mixed $value New property value
      *
      * @return void
      *
      * @throws XML_XRD_LogicException Always
      */
-    public function offsetSet($type, $value)
+    public function offsetSet(mixed $type, mixed $value): void
     {
         throw new XML_XRD_LogicException('Changing properties not implemented');
     }
@@ -98,13 +98,13 @@ abstract class XML_XRD_PropertyAccess implements ArrayAccess
      *
      * Part of the ArrayAccess interface
      *
-     * @param string $type Property type to check for
+     * @param mixed $type Property type to check for
      *
      * @return void
      *
      * @throws XML_XRD_LogicException Always
      */
-    public function offsetUnset($type)
+    public function offsetUnset(mixed $type): void
     {
         throw new XML_XRD_LogicException('Changing properties not implemented');
     }
@@ -112,16 +112,16 @@ abstract class XML_XRD_PropertyAccess implements ArrayAccess
     /**
      * Get all properties with the given type
      *
-     * @param string $type Property type to filter by
+     * @param string|null $type Property type to filter by
      *
      * @return array Array of XML_XRD_Element_Property objects
      */
-    public function getProperties($type = null)
+    public function getProperties(string|null $type = null): array
     {
         if ($type === null) {
             return $this->properties;
         }
-        $properties = array();
+        $properties = [];
         foreach ($this->properties as $prop) {
             if ($prop->type == $type) {
                 $properties[] = $prop;

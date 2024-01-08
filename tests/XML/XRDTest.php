@@ -1,14 +1,16 @@
 <?php
 require_once 'XML/XRD.php';
 
+use \PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
+
 /**
  * @covers XML_XRD
  */
 class XML_XRDTest extends PHPUnit_Framework_TestCase
 {
-    public $xrd;
+    public XML_XRD $xrd;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->xrd = new XML_XRD();
     }
@@ -17,12 +19,14 @@ class XML_XRDTest extends PHPUnit_Framework_TestCase
      * @expectedException XML_XRD_Loader_Exception
      * @expectedExceptionMessage No loader for XRD type "batty"
      */
-    public function testLoadStringNoLoader()
+    public function testLoadStringNoLoader(): void
     {
+        $this->expectException(XML_XRD_Loader_Exception::class);
+        $this->expectExceptionMessage('No loader for XRD type "batty"');
         @$this->xrd->loadString('foo', 'batty');
     }
 
-    public function testLoadString()
+    public function testLoadString(): void
     {
         $xrdstring = <<<XRD
 <?xml version="1.0"?>
@@ -41,19 +45,21 @@ XRD;
      * @expectedException XML_XRD_Loader_Exception
      * @expectedExceptionMessage Detecting file type failed
      */
-    public function testLoadStringFailEmpty()
+    public function testLoadStringFailEmpty(): void
     {
+        $this->expectException(XML_XRD_Loader_Exception::class);
+        $this->expectExceptionMessage('Detecting file type failed');
         $this->xrd->loadString("");
     }
 
-    public function testLoadFile()
+    public function testLoadFile(): void
     {
         $this->assertNull(
             $this->xrd->loadFile(__DIR__ . '/../xrd/xrd-1.0-b1.xrd')
         );
     }
 
-    public function testDescribesNoAlias()
+    public function testDescribesNoAlias(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../xrd/xrd-1.0-b1.xrd');
         $this->assertTrue(
@@ -61,7 +67,7 @@ XRD;
         );
     }
 
-    public function testDescribesNoAliasFail()
+    public function testDescribesNoAliasFail(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../xrd/xrd-1.0-b1.xrd');
         $this->assertFalse(
@@ -69,7 +75,7 @@ XRD;
         );
     }
 
-    public function testDescribesAliasSubject()
+    public function testDescribesAliasSubject(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../xrd/xrd-1.0-b2.xrd');
         $this->assertTrue(
@@ -77,7 +83,7 @@ XRD;
         );
     }
 
-    public function testDescribesAliasAlias()
+    public function testDescribesAliasAlias(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../xrd/xrd-1.0-b2.xrd');
         $this->assertTrue(
@@ -85,7 +91,7 @@ XRD;
         );
     }
 
-    public function testDescribesAliasAlias2()
+    public function testDescribesAliasAlias2(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../xrd/xrd-1.0-b2.xrd');
         $this->assertTrue(
@@ -93,7 +99,7 @@ XRD;
         );
     }
 
-    public function testDescribesAliasFail()
+    public function testDescribesAliasFail(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../xrd/xrd-1.0-b2.xrd');
         $this->assertFalse(
@@ -101,7 +107,7 @@ XRD;
         );
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../xrd/xrd-1.0-b1.xrd');
         $links = array();
@@ -114,7 +120,7 @@ XRD;
         $this->assertEquals('http://photos.example.com/gpburdell.jpg', $links[1]->href);
     }
 
-    public function testGetRelation()
+    public function testGetRelation(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../xrd/multilinks.xrd');
         $link = $this->xrd->get('lrdd');
@@ -122,7 +128,7 @@ XRD;
         $this->assertEquals('http://example.com/lrdd/1', $link->href);
     }
 
-    public function testGetRelationTypeOptional()
+    public function testGetRelationTypeOptional(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../xrd/multilinks.xrd');
         $link = $this->xrd->get('picture', 'image/jpeg');
@@ -134,7 +140,7 @@ XRD;
         );
     }
 
-    public function testGetRelationTypeOptionalNone()
+    public function testGetRelationTypeOptionalNone(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../xrd/multilinks.xrd');
         $link = $this->xrd->get('picture', 'image/svg+xml');
@@ -144,7 +150,7 @@ XRD;
         );
     }
 
-    public function testGetRelationTypeRequiredFail()
+    public function testGetRelationTypeRequiredFail(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../xrd/multilinks.xrd');
         $this->assertNull(
@@ -152,7 +158,7 @@ XRD;
         );
     }
 
-    public function testGetRelationTypeRequiredOk()
+    public function testGetRelationTypeRequiredOk(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../xrd/multilinks.xrd');
         $link = $this->xrd->get('cv', 'text/html', false);
@@ -160,11 +166,11 @@ XRD;
         $this->assertEquals('http://example.com/cv.html', $link->href);
     }
 
-    public function testGetAllRelation()
+    public function testGetAllRelation(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../xrd/multilinks.xrd');
         $links = $this->xrd->getAll('cv');
-        $this->assertInternalType('array', $links);
+        $this->assertIsArray($links);
         $this->assertEquals(3, count($links));
         foreach ($links as $link) {
             $this->assertInstanceOf('XML_XRD_Element_Link', $link);
@@ -174,11 +180,11 @@ XRD;
         $this->assertEquals('http://example.com/cv.xml', $links[2]->href);
     }
 
-    public function testGetAllRelationTypeOptionalExact()
+    public function testGetAllRelationTypeOptionalExact(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../xrd/multilinks.xrd');
         $links = $this->xrd->getAll('cv', 'text/html');
-        $this->assertInternalType('array', $links);
+        $this->assertIsArray($links);
         $this->assertEquals(1, count($links));
         foreach ($links as $link) {
             $this->assertInstanceOf('XML_XRD_Element_Link', $link);
@@ -186,11 +192,11 @@ XRD;
         $this->assertEquals('http://example.com/cv.html', $links[0]->href);
     }
 
-    public function testGetAllRelationTypeOptionalNotExact()
+    public function testGetAllRelationTypeOptionalNotExact(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../xrd/multilinks.xrd');
         $links = $this->xrd->getAll('cv', 'text/xhtml+xml');
-        $this->assertInternalType('array', $links);
+        $this->assertIsArray($links);
         $this->assertEquals(1, count($links));
         foreach ($links as $link) {
             $this->assertInstanceOf('XML_XRD_Element_Link', $link);
@@ -198,11 +204,11 @@ XRD;
         $this->assertEquals('http://example.com/cv.xml', $links[0]->href);
     }
 
-    public function testGetAllRelationTypeRequired()
+    public function testGetAllRelationTypeRequired(): void
     {
         $this->xrd->loadFile(__DIR__ . '/../xrd/multilinks.xrd');
         $links = $this->xrd->getAll('cv', 'text/html', false);
-        $this->assertInternalType('array', $links);
+        $this->assertIsArray($links);
         $this->assertEquals(1, count($links));
         foreach ($links as $link) {
             $this->assertInstanceOf('XML_XRD_Element_Link', $link);
@@ -210,20 +216,20 @@ XRD;
         $this->assertEquals('http://example.com/cv.html', $links[0]->href);
     }
 
-    public function testTo()
+    public function testTo(): void
     {
         $this->xrd->subject = 'foo@example.org';
         $json = $this->xrd->to('json');
-        $this->assertInternalType('string', $json);
-        $this->assertContains('foo@example.org', $json);
+        $this->assertIsString($json);
+        $this->assertStringContainsString('foo@example.org', $json);
     }
 
-    public function testToXml()
+    public function testToXml(): void
     {
         $this->xrd->subject = 'foo@example.org';
         $xml = $this->xrd->toXML();
-        $this->assertInternalType('string', $xml);
-        $this->assertContains('<Subject>foo@example.org</Subject>', $xml);
+        $this->assertIsString($xml);
+        $this->assertStringContainsString('<Subject>foo@example.org</Subject>', $xml);
     }
 
 }

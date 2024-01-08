@@ -1,12 +1,14 @@
 <?php
 require_once 'XML/XRD.php';
 
+use \PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
+
 /**
  * @covers XML_XRD_Serializer_JSON
  */
 class XML_XRD_Serializer_JSONTest extends PHPUnit_Framework_TestCase
 {
-    public function testXrdRfc6415A()
+    public function testXrdRfc6415A(): void
     {
         $filePath = __DIR__ . '/../../../';
         $x = new XML_XRD();
@@ -17,7 +19,7 @@ class XML_XRD_Serializer_JSONTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testRemoveEmptyLinksArray()
+    public function testRemoveEmptyLinksArray(): void
     {
         $x = new XML_XRD();
         $x->subject = 'foo';

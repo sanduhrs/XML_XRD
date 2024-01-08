@@ -31,51 +31,51 @@ class XML_XRD_Element_Link extends XML_XRD_PropertyAccess
     /**
      * Link relation
      *
-     * @var string
+     * @var string|null
      */
-    public $rel;
+    public string|null $rel;
 
     /**
      * Link type (MIME type)
      *
-     * @var string
+     * @var string|null
      */
-    public $type;
+    public string|null $type;
 
     /**
      * Link URL
      *
-     * @var string
+     * @var string|null
      */
-    public $href;
+    public string|null $href = null;
 
     /**
      * Link URL template
      *
-     * @var string
+     * @var string|null
      */
-    public $template;
+    public string|null $template = null;
 
     /**
      * Array of key-value pairs: Key is the language, value the title
      *
      * @var array
      */
-    public $titles = array();
+    public array $titles = [];
 
 
 
     /**
      * Create a new instance and load data from the XML element
      *
-     * @param string  $rel        string with the relation name/URL
-     * @param string  $href       HREF value
-     * @param string  $type       Type value
+     * @param string|null  $rel        string with the relation name/URL
+     * @param string|null  $href       HREF value
+     * @param string|null  $type       Type value
      * @param boolean $isTemplate When set to true, the $href is
      *                            used as template
      */
     public function __construct(
-        $rel = null, $href = null, $type = null, $isTemplate = false
+        string|null $rel = null, string|null $href = null, string|null $type = null, bool $isTemplate = false
     ) {
         $this->rel = $rel;
         if ($isTemplate) {
@@ -91,11 +91,11 @@ class XML_XRD_Element_Link extends XML_XRD_PropertyAccess
      * If the language is not available, the first title without the language
      * is returned. If no such one exists, the first title is returned.
      *
-     * @param string $lang 2-letter language name
+     * @param string|null $lang 2-letter language name
      *
      * @return string|null Link title
      */
-    public function getTitle($lang = null)
+    public function getTitle(string|null $lang = null): string|null
     {
         if (count($this->titles) == 0) {
             return null;

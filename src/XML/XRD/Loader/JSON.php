@@ -28,7 +28,7 @@ class XML_XRD_Loader_JSON
      *
      * @var XML_XRD
      */
-    protected $xrd;
+    protected XML_XRD $xrd;
 
 
 
@@ -52,7 +52,7 @@ class XML_XRD_Loader_JSON
      * @throws XML_XRD_Loader_Exception When the JSON is invalid or cannot be
      *                                   loaded
      */
-    public function loadFile($file)
+    public function loadFile(string $file): void
     {
         $json = file_get_contents($file);
         if ($json === false) {
@@ -61,7 +61,7 @@ class XML_XRD_Loader_JSON
                 XML_XRD_Loader_Exception::LOAD
             );
         }
-        return $this->loadString($json);
+        $this->loadString($json);
     }
 
     /**
@@ -74,7 +74,7 @@ class XML_XRD_Loader_JSON
      * @throws XML_XRD_Loader_Exception When the JSON is invalid or cannot be
      *                                   loaded
      */
-    public function loadString($json)
+    public function loadString(string $json): void
     {
         if ($json == '') {
             throw new XML_XRD_Loader_Exception(
@@ -85,11 +85,12 @@ class XML_XRD_Loader_JSON
 
         $obj = json_decode($json);
         if ($obj !== null) {
-            return $this->load($obj);
+            $this->load($obj);
+            return;
         }
 
         $constants = get_defined_constants(true);
-        $json_errors = array();
+        $json_errors = [];
         foreach ($constants['json'] as $name => $value) {
             if (!strncmp($name, 'JSON_ERROR_', 11)) {
                 $json_errors[$value] = $name;
@@ -108,7 +109,7 @@ class XML_XRD_Loader_JSON
      *
      * @return void
      */
-    public function load(stdClass $j)
+    public function load(stdClass $j): void
     {
         if (isset($j->subject)) {
             $this->xrd->subject = (string)$j->subject;
@@ -135,14 +136,14 @@ class XML_XRD_Loader_JSON
     /**
      * Loads the Property elements from XML
      *
-     * @param object $store Data store where the properties get stored
-     * @param object $j     JSON element with "properties" variable
+     * @param XML_XRD_PropertyAccess $store Data store where the properties get stored
+     * @param stdClass               $j     JSON element with "properties" variable
      *
      * @return boolean True when all went well
      */
     protected function loadProperties(
         XML_XRD_PropertyAccess $store, stdClass $j
-    ) {
+    ): bool {
         if (!isset($j->properties)) {
             return true;
         }
@@ -159,14 +160,14 @@ class XML_XRD_Loader_JSON
     /**
      * Create a link element object from XML element
      *
-     * @param object $j JSON link object
+     * @param stdClass $j JSON link object
      *
      * @return XML_XRD_Element_Link Created link object
      */
-    protected function loadLink(stdClass $j)
+    protected function loadLink(stdClass $j): XML_XRD_Element_Link
     {
         $link = new XML_XRD_Element_Link();
-        foreach (array('rel', 'type', 'href', 'template') as $var) {
+        foreach (['rel', 'type', 'href', 'template'] as $var) {
             if (isset($j->$var)) {
                 $link->$var = (string)$j->$var;
             }
